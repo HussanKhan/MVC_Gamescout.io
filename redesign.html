@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>Best Game Deals Website on the Internet - Everyday Deals</title>
+        <meta name="description" content="We search multiple gaming sites everyday and aggregate game deals. Our gaming deals are updated everyday. Our aggregator guarantees the lowest priced games around.">
+        <meta name="keywords" content="pc game deals, ps4 game deals, video game deal">
+        <link rel="stylesheet" type="text/css" href="css/newDesign.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <div class="sidebarWrapper">
+                <div class="sidebar">
+                    <h2 class="logo">GameScout</h2>
+                        <input class="searchBar" placeholder="Search for a game..." type="text" data-bind="textInput: userSearch">
+                        <!-- <div class="platformHolder">
+                            <button class="platformButton">PC</button>
+                            <button class="platformButton">PS4</button>
+                            <button class="platformButton">XBOX</button>
+                            <button class="platformButton">Nintendo</button>
+                        </div> -->
+                        <ul class="navList">
+                            <li class="navOptions">
+                                <span>Platform</span>
+                                <span><img class="navImage" src="css/platform.png" alt=""></span>
+                            </li>
+                            <li class="navOptions">
+                                <span>Price</span>
+                                <span><img class="navImage" src="css/dollar.png" alt=""></span>
+                            </li>
+                            <li class="navOptions">
+                                <span>Genre</span>
+                                <span><img class="navImage" src="css/genre.png" alt=""></span>
+                            </li>
+                        </ul>
+
+                        <button class="twitterButton">Follow</button>
+                </div>
+            </div>
+            <div class="mainDisplay">
+                <div class="gamesWrapper" data-bind="foreach: displayGames">
+                    <div class="gameBox">
+                        <!-- <img data-src="" data-bind="attr: {'data-src': image}" src="https://gamescout.io/static/images/Gamecovers/forza%20horizon%204%20%E2%80%93.jpg" height="245px" width="180px" alt=""> -->
+                        <img class="lazyload" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" height="245px" width="180px" alt="">
+                            <div class="gameInfo">
+                                <p class="gameTitle" data-bind="text: title"></p>
+                                <span class="platPrice">
+                                    <p class="price" data-bind="text: price"></p>
+                                    <p data-bind="text: plat, attr: {'class': 'platform ' + plat}">PS4</p>
+                                </span>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script type='text/javascript' src="js/jquery-3.3.1.min.js"></script>
+    <script type='text/javascript' src="js/knockout-3.4.2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
+    <script type='text/javascript' src="js/newApp.js"></script>
+</html>

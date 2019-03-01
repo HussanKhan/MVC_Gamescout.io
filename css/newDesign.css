@@ -1,0 +1,202 @@
+html {
+    font-size: 1em;
+    padding: 0%;
+    margin: 0%;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+}
+
+body {
+    padding: 0%;
+    margin: 0%;
+    font-family: 'Roboto', sans-serif;
+    /* background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%); */
+    overflow: hidden
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.sidebarWrapper {
+    width: 15%;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 100vh;
+    box-shadow: 0 3px 40px rgb(48, 49, 51);
+    z-index: 1;
+}
+
+.sidebar {
+    margin: 0 auto;
+    width: 80%;
+}
+
+.logo {
+    color: white;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 100;
+    margin: 30px 0px 30px 0px;
+}
+
+.searchBar {
+    border-width: 0px;
+    padding: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    margin: 28% 0% 36% 0%;
+    outline: none;
+}
+
+.navList {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.navOptions {
+    padding: 15px;
+    padding-bottom: 10px;
+    margin: 5px 0px 5px 0px;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    transition: all 0.3s;
+}
+
+.navImage {
+    height: 20px;
+}
+
+.navOptions:hover {
+    background-color: #0000001f;
+}
+
+.platformHolder {
+    display: flex;
+    flex-direction: row;
+}
+
+.platformButton {
+    width: 25%;
+    border-width: 0px;
+    padding: 9px;
+    outline: none;
+    margin: 4px;
+    background-color: #ffffff3d;
+    color: white;
+    border-radius: 3px;
+    font-size: 1rem;
+}
+
+.platformButton:first-child {
+    margin-left: 0px;
+}
+
+.platformButton:last-child {
+    margin-right: 0px;
+}
+
+.twitterButton {
+    background-color: rgb(0, 172, 238);
+    color: white;
+    width: 100%;
+    padding: 11px;
+    font-size: 1rem;
+    margin-top: 100%;
+    cursor: pointer;
+    border-radius: 3px;
+    border-width: 0px;
+    transition: all 0.3s;
+}
+
+.twitterButton:hover {
+    background-color: rgb(0, 147, 206);
+}
+
+.mainDisplay {
+    background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    width: 85%;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.gamesWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.gameBox {
+    background-color: white;
+    margin: 1%;
+    max-width: 180px;
+    border: 1px solid #e4e6f2;
+    cursor: pointer;
+    box-shadow: 0 19px 40px #bbc0d333;
+    transition: all 0.3s;
+}
+
+.gameBox:hover {
+    box-shadow: 0 19px 45px rgba(107, 107, 107, 0.59);
+}
+
+.gameInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 70px;
+}
+
+.platPrice {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.gameTitle {
+    margin: 6px;
+    font-size: 0.8rem;
+    min-height: 21px;
+    max-height: 21px;
+}
+
+.price {
+    margin: 6px;
+    font-size: 0.9rem;
+    color: #ed3b3b;
+}
+
+.platform {
+    margin: 7px;
+    margin-right: 5px;
+    font-size: 0.8rem;
+}
+
+.PC {
+    color: #7f8fa6;
+}
+
+.PS4 {
+    color: #0097e6;
+}
+
+.XBOX {
+    color: #27ae60;
+}
+
+.NINTENDO {
+    color: #e74c3c;
+}

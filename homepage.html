@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>Best Game Deals Website on the Internet - Everyday Deals</title>
+        <meta name="description" content="We search multiple gaming sites everyday and aggregate game deals. Our gaming deals are updated everyday. Our aggregator guarantees the lowest priced games around.">
+        <meta name="keywords" content="pc game deals, ps4 game deals, video game deal">
+        <link rel="stylesheet" type="text/css" href="css/styles2.css">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+        <meta name="google-site-verification" content="1Omh3iGsOcu_I6deZ7okx9UH1G6q2kkIRqwOyYwyrH0" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79371248-3"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'UA-79371248-3');
+        </script>
+    </head>
+
+    <body>
+        <div class="feat_wrapper" id="feat_game2" style="display: none;">
+            <div style="text-align: center; margin-bottom: 50%; margin-top: 15%; height: 100vh;" data-bind="visible: $root.feat_loader">
+                <div class="lds2-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            </div>
+            <div class="feat_text" id="feat_game" data-bind="visible: $root.feat_content">
+                <!-- Container for cover of game and offer container -->
+                <div style="margin-bottom: 3%; display: flex; border-radius: 5px; padding: 10px; margin-top: 0%; justify-content: space-between;">
+                       <button type="submit" onclick='' data-bind="attr: {onclick: $root.twitter}" style="cursor: pointer; outline: none; color: white; background-color: #1da1f2; padding: 10px; border-width: 0px; width: 32%; border-radius: 5px; box-shadow: 0 0 11px 0.5px rgba(129, 129, 129, 0.1); padding-right: 0px; padding-left: 0px;">Tweet</button>
+                       <button type="submit" onclick='' data-bind="attr: {onclick: $root.reddit}" style="cursor: pointer; outline: none; color: white; background-color: #ff5700f0; padding: 10px; border-width: 0px; width: 32%; border-radius: 5px; box-shadow: 0 0 11px 0.5px rgba(129, 129, 129, 0.1); padding-right: 0px; padding-left: 0px;">Post to Reddit</button>
+                       <button style="cursor: pointer; outline: none; color: white; background-color: #e74c3c; padding: 10px; border-width: 0px; width: 32%; border-radius: 5px; box-shadow: 0 0 11px 0.5px rgba(129, 129, 129, 0.1);" data-bind="click: function(){$root.close_game_info();}">Close</button>
+                </div>
+
+                <div class="cover_offer">
+                    <!-- Store item container -->
+                    <div class="storeitem feat">
+                        <div class="imgtitleprice feat">
+                            <img class="lazyload gameimage feat" src="" data-bind="attr: {src: $root.feat_img}" width="194" height="266" alt="{{ title }} Cover">
+                            <div class="titleprice">
+                                <p class="gametitle feat" data-bind="text: $root.feat_title"></p>
+                                <div class="sourceprice feat">
+                                    <p class="gamesource feat" data-bind="text: $root.feat_date"></p>
+                                    <div class="">
+                                        <p class="gprice rating" data-bind="text: $root.feat_rating() + '%'"></p>
+                                        <p class=""></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Container of offers -->
+                    <div class="feat_offer" data-bind="foreach: $root.feat_deals">
+                            <div class="offer_info">
+                                <p class="offer_title" data-bind="text: offer_title"></p>
+                                <p class="feat_plat" data-bind="text: tag, attr: {class: 'feat_plat ' + platform}"></p>
+                            </div>
+                            <a href="" data-bind="attr: {href: buylink}"><button class="offer_buy"type="button" name="button" data-bind="text: offer_phrase"></button></a>
+                    </div>
+                </div>
+
+                <!-- Video and summary -->
+                <div class="vid_text">
+                    <h1 style="margin-bottom: 0px;" class="info_small_head" data-bind="text: $root.feat_title() + ' Deal Information'"></h1>
+                    <p style="margin-bottom: 0px; background-color: #f5f6fa; border-radius: 5px; padding: 10px;" data-bind="text: $root.feat_extras1"></p>
+
+                    <h2 class="info_small_head" data-bind="text: $root.feat_title() + ' Video Review'"></h2>
+                    <iframe width="100%" src="" data-bind="attr: {src: $root.feat_trailer}"frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
+
+                    <h2 style="margin-bottom: 0px;" class="info_small_head"  data-bind="visible: $root.review_viz, text: $root.feat_title() + ' User Reviews'"></h2>
+
+                    <div data-bind="foreach: $root.feat_extras2">
+                        <p style="margin-bottom: 0px; background-color: #f5f6fa; border-radius: 5px; padding: 10px;" data-bind="text: rev"></p>
+                    </div>
+
+                    <h3 style="margin-bottom: 0px;" class="info_small_head" data-bind="text: $root.feat_title() + ' Summary'"></h4>
+                    <p style="margin-bottom: 0px; background-color: #f5f6fa; border-radius: 5px; padding: 10px;" data-bind="text: feat_sum"></p>
+
+                    <h3 style="margin-bottom: 0px;" class="info_small_head">Game Deal Seller Information</h3>
+
+                    <div data-bind="foreach: $root.feat_extras3">
+                        <p style="margin-bottom: 0px;  background-color: #f5f6fa; border-radius: 5px; padding: 10px;" data-bind="text: sup"></p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="imgtitle">
+
+
+            <div id="side-menu" class="side-nav" data-bind="visible: $root.sidebarvis">
+                <a href="#" style="display: none;" class="btn-close" data-bind="click: function(){$root.closesidebar();}, visible: $root.sidebarvis">&times;</a>
+                <div class="innerside" data-bind="foreach: $root.allgenres">
+                    <a href="" data-bind="text: genre, attr:{href: link}"></a>
+                </div>
+            </div>
+
+
+        </div>
+
+        </div>
+        <div style="text-align: center; margin-bottom: 50%; margin-top: 15%; height: 100vh;" data-bind="visible: $root.init_loader">
+            <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+
+
+<div id="storewrap" class="storewrapper">
+
+        <div class="bg intro">
+            <nav>
+                <span class="open-slide" data-bind="click: function(){$root.opensidebar();}">
+                        <a href="#">
+                            <svg width="30" height="30">
+                                <path d="M0,5 30,5" stroke="#fff" stroke-width="5"/>
+                                <path d="M0,14 30,14" stroke="#fff" stroke-width="5"/>
+                                <path d="M0,23 30,23" stroke="#fff" stroke-width="5"/>
+                            </svg>
+                        </a>
+                </span>
+                <a href="/"><p class="site_name">GameScout</p></a>
+            </nav>
+
+            <h3 class="mobilesitemessage2" data-bind="text: $root.num_deals"><br></h3>
+
+            <input type="text" name="" value="" class="searchbar2" placeholder="Search for a game..." data-bind="textInput: searchphrase, visible: $root.show_main_mess">
+
+            <div class="search_matches" data-bind="foreach: $root.search_matches, visible: searchdis">
+                <div class="search_cont" data-bind="click: function(){$root.openweb(title)}">
+                    <p class="match_title" data-bind="text: title"></p>
+                    <p class="match_price">Deals Available!</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="filt_cont">
+            <button class="filt_button PC"type="button" name="button" data-bind="click: function(){filterplat('PC');}">PC</button>
+            <button class="filt_button PS4"type="button" name="button" data-bind="click: function(){filterplat('PS4');}">PS4</button>
+            <button class="filt_button XBOX"type="button" name="button" data-bind="click: function(){filterplat('XBOX');}">XBOX</button>
+            <button class="filt_button NINTENDO"type="button" name="button" data-bind="click: function(){filterplat('NINTENDO');}">Nintendo</button>
+        </div>
+
+        <div style="text-align: center; margin-bottom: 50%; margin-top: 5%;" data-bind="visible: $root.loader">
+            <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+
+        <div class="storebackground" data-bind="foreach: listGenres, visible: $root.store">
+            <div class="ptext" id="" data-bind="attr:{id: genre}">
+                <h3 class="genrecat" data-bind="text: genre"></h3>
+            </div>
+          <div class="" data-bind="attr:{class: genre.split(' ').join('_') + ' bg'}">
+
+                <div class="displaycont">
+                    <button class="nextbutton" type="button" name="button" data-bind="click: function(){$root.scrollerr(scroll_id)}"><</button>
+                    <div class="storebar" id="" data-bind="foreach: gamelist, attr:{id: scroll_id}">
+                            <div class="storeitem" data-bind="click: function(){$root.openweb(title)}">
+                                <div class="imgtitleprice">
+                                    <img class="lazyload gameimage" data-src="" width="194" height="266" data-bind="attr: {'data-src': image}">
+                                    <div class="titleprice">
+                                        <p class="gametitle" data-bind="text: title"></p>
+                                        <div class="sourceprice">
+                                            <!-- <p class="gamesource" data-bind="text: source"></p> -->
+                                            <div class="" data-bind="attr: {class: plat.split(' ')[0]}">
+                                                <p class="gprice" data-bind="text: price"></p>
+                                                <p class="" data-bind="text: plat.split(' ')[1], attr: {class: 'gplat ' + plat.split(' ')[1]}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <button class="nextbutton" type="button" name="button" data-bind="click: function(){$root.scrollerl(scroll_id)}">></button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script type='text/javascript' src="js/jquery-3.3.1.min.js"></script>
+    <script type='text/javascript' src="js/knockout-3.4.2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
+    <script type='text/javascript' src="js/app2.js"></script>
+</html>
