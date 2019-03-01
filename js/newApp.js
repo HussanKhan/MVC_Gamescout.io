@@ -27,8 +27,8 @@ let model = {
     // filtered Games
     filteredGames: [],
 
-    // Users Search Term
-    searchTerm: "",
+    // Games already matches
+    searchMatches: [],
 
 };
 
@@ -42,12 +42,10 @@ let View = function() {
     // Holds games that are displayed
     this.displayGames = ko.observableArray();
 
-    // Starting displat
-    const starter = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
+    // Default displayed games
+    const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
 
-    this.displayGames(
-        starter
-    );
+    this.displayGames(defaultGames);
 
     // Listens for user search
     ko.computed(() => {
@@ -57,9 +55,10 @@ let View = function() {
             this.displayGames(matches);
             lazyload();
         } else {
-            this.displayGames(starter);
+            this.displayGames(defaultGames);
             lazyload();
         }
+
     });
 
 }
@@ -126,7 +125,7 @@ let controller = {
             for (let i = 0; i < model.allGames.length; i++) {
 
                 if (controller.checkGenre(model.allGames[i].genre, genres)) {
-    
+                    
                     model.filteredGames.push(model.allGames[i]);
     
                 }
@@ -150,9 +149,12 @@ let controller = {
             if (string.includes(tokens[t])) {
 
                 matches = matches + 1;
+                
                 const ratio = parseInt((matches/allTokens) * 100);
 
                 if (ratio > sense) {
+
+                    console.log(ratio, string, tokens)
 
                     return 1;
                 }
@@ -190,6 +192,7 @@ let controller = {
         } else {
             return 0;
         }
+        
 
         for (let i = 0; i < model.filteredGames.length; i++) {
 
@@ -199,10 +202,7 @@ let controller = {
 
         }
 
-        console.log(tokens);
-
         return matches;
-        
 
     }
 
