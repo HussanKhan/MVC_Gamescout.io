@@ -42,13 +42,24 @@ let View = function() {
     // Holds games that are displayed
     this.displayGames = ko.observableArray();
 
+    // Starting displat
+    const starter = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
+
     this.displayGames(
-        controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true)
+        starter
     );
 
     // Listens for user search
     ko.computed(() => {
-        console.log(this.userSearch());
+        const matches = controller.filterTitles(this.userSearch());
+
+        if (matches && matches.length != 0) {
+            this.displayGames(matches);
+            lazyload();
+        } else {
+            this.displayGames(starter);
+            lazyload();
+        }
     });
 
 }
@@ -126,9 +137,74 @@ let controller = {
 
     },
 
-    // filterTitles: () => {
+    // Returns how many token matches
+    stringSimilarity: (tokens, string, sense=65) => {
 
-    // };
+        let matches = 0;
+        const allTokens = tokens.length;
+
+        string = string.split(' ').join('').toLowerCase()
+
+        for (let t = 0; t < tokens.length; t++) {
+
+            if (string.includes(tokens[t])) {
+
+                matches = matches + 1;
+                const ratio = parseInt((matches/allTokens) * 100);
+
+                if (ratio > sense) {
+
+                    return 1;
+                }
+
+            }
+        }
+
+        return 0;
+    }, 
+
+    // Uses tokens on length 3 match string
+    filterTitles: (query) => {
+
+        let tokens = [];
+
+        let matches = [];
+
+        if (query) {
+
+            query = query.split(' ').join('').toLowerCase()
+
+            let currentToken = [];
+            
+            for (let t = 0; t < query.length; t++) {
+
+                currentToken.push(query[t]);
+
+                if ( ((t+1) % 3) === 0) {
+                    tokens.push(currentToken.join(''));
+                    currentToken = [];
+                }
+
+            };
+
+        } else {
+            return 0;
+        }
+
+        for (let i = 0; i < model.filteredGames.length; i++) {
+
+            if (controller.stringSimilarity(tokens, model.filteredGames[i].title)) {
+                matches.push(model.filteredGames[i]);
+            }
+
+        }
+
+        console.log(tokens);
+
+        return matches;
+        
+
+    }
 
 };
 
