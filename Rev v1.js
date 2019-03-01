@@ -32,7 +32,6 @@ let model = {
 
 };
 
-// UI
 let view = {
     // Holds games that are displayed
     displayGames: ko.observableArray(),
@@ -97,7 +96,6 @@ let view = {
         };
     },
     
-    // Current state of nav
     navState: ko.observable(),
 
     // Handles nav interactions
@@ -110,7 +108,102 @@ let view = {
     }
 };
 
-// Interacts with model
+// let View = function() {
+
+//     const self = this;
+
+//     // User Search input
+//     this.userSearch = ko.observable();
+    
+//     // Holds games that are displayed
+//     this.displayGames = ko.observableArray();
+
+//     // Default displayed games
+//     const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
+
+//     this.displayGames(defaultGames);
+
+//     // Style for selected nav button
+//     const selectedNavStyle = () => {
+//         return {
+//             // selected
+//             border: "1px solid white",
+//             boxShadow: "0px 0px 5px 0.5px rgba(255,255,255,0.5)",
+//             backgroundColor:  "#0000001f",
+//             opacity: 1
+//         }
+//     };
+
+//     // Default styles of nav
+//     const defaultNavStyle = () => {
+//         return {
+//             // default
+//             border: "1px solid rgba(255,255,255,0.0)",
+//             boxShadow: "0px 0px 0px 0px rgba(255,255,255,0.0)",
+//             backgroundColor: "",
+//             opacity: 1
+//         }
+//     };
+
+//     // Init styles of nav
+//     const defaultNavState = () => {
+//         return {
+//             platform: defaultNavStyle(),
+//             price : defaultNavStyle(),
+//             genre: defaultNavStyle(),
+//         };
+//     };
+
+//     // Other Options Selected
+//     const notSelectedNavState = () => {
+//         return {
+//             platform: defaultNavStyle(),
+//             price : defaultNavStyle(),
+//             genre: defaultNavStyle(),
+//         };
+//     };
+
+//     // Main object for sidebar styles
+//     this.navState = ko.observable(defaultNavState());
+
+//     // Init styles of nav
+//     const defaultDetailState = () => {
+//         return {
+//             platform: false,
+//             price : false,
+//             genre: false,
+//         };
+//     };
+
+//     // Details options for each nav option
+//     this.detailState = ko.observable(defaultDetailState());
+
+//     // Handles nav interactions
+//     this.selectNavOption = (option) => {
+//         let newState = defaultNavState();
+        
+//         newState[option] = selectedNavStyle();
+        
+//         this.navState(newState);
+//     }
+
+//     // Listens for user search
+//     ko.computed(() => {
+//         const matches = controller.filterTitles(this.userSearch());
+
+//         if (matches && matches.length != 0) {
+//             this.displayGames(matches);
+//             lazyload();
+//         } else {
+//             this.displayGames(defaultGames);
+//             lazyload();
+//         }
+
+//     });
+
+// }
+
+// Interact with model
 let controller = {
 
     // Stores deals from api into model

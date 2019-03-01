@@ -17,23 +17,40 @@
             <div class="sidebarWrapper">
                 <div class="sidebar">
                     <h2 class="logo">GameScout</h2>
-                        <input class="searchBar" placeholder="Search for a game..." type="text" data-bind="textInput: userSearch">
-                        <!-- <div class="platformHolder">
-                            <button class="platformButton">PC</button>
-                            <button class="platformButton">PS4</button>
-                            <button class="platformButton">XBOX</button>
-                            <button class="platformButton">Nintendo</button>
-                        </div> -->
+                        <input class="searchBar" placeholder="Search for a game..." type="text" data-bind="textInput: view.userSearch">
+                        
                         <ul class="navList">
-                            <li class="navOptions">
+                            <li class="navOptions" data-bind="style: view.navState().platform, click: () => { view.selectNavOption('platform') }">
                                 <span>Platform</span>
                                 <span><img class="navImage" src="css/platform.png" alt=""></span>
+                                
                             </li>
-                            <li class="navOptions">
+
+                            <span class="navOptions">
+                                    <span>PC</span>
+                                    <span><img class="navImage" src="css/steam.png" alt=""></span>
+                            </span>
+
+                            <span class="navOptions">
+                                    <span>PS4</span>
+                                    <span><img class="navImage" src="css/ps4.png" alt=""></span>
+                            </span>
+                            <span class="navOptions">
+                                    <span>XBOX</span>
+                                    <span><img class="navImage" src="css/xbox.png" alt=""></span>
+                            </span>
+                            <span class="navOptions">
+                                    <span>Nintendo</span>
+                                    <span><img class="navImage" src="css/nintendo.png" alt=""></span>
+                            </span>
+
+                            <hr class="platformLine">
+
+                            <li class="navOptions navPrice" data-bind="style: view.navState().price, click: () => { view.selectNavOption('price') }">
                                 <span>Price</span>
                                 <span><img class="navImage" src="css/dollar.png" alt=""></span>
                             </li>
-                            <li class="navOptions">
+                            <li class="navOptions navGenre" data-bind="style: view.navState().genre, click: () => { view.selectNavOption('genre') }">
                                 <span>Genre</span>
                                 <span><img class="navImage" src="css/genre.png" alt=""></span>
                             </li>
@@ -43,15 +60,16 @@
                 </div>
             </div>
             <div class="mainDisplay">
-                <div class="gamesWrapper" data-bind="foreach: displayGames">
+                <div class="gamesWrapper" data-bind="foreach: view.displayGames">
                     <div class="gameBox">
                         <!-- <img data-src="" data-bind="attr: {'data-src': image}" src="https://gamescout.io/static/images/Gamecovers/forza%20horizon%204%20%E2%80%93.jpg" height="245px" width="180px" alt=""> -->
-                        <img class="lazyload" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" height="245px" width="180px" alt="">
+                        <img class="lazyload gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" height="245px" width="180px" alt="">
                             <div class="gameInfo">
                                 <p class="gameTitle" data-bind="text: title"></p>
                                 <span class="platPrice">
+                                        <p data-bind="text: plat, attr: {'class': 'platform ' + plat}">PS4</p>
                                     <p class="price" data-bind="text: price"></p>
-                                    <p data-bind="text: plat, attr: {'class': 'platform ' + plat}">PS4</p>
+                                    
                                 </span>
                             </div>
                         </div>

@@ -43,11 +43,11 @@ body {
 
 .searchBar {
     border-width: 0px;
-    padding: 12px;
+    padding: 14px;
     box-sizing: border-box;
     width: 100%;
     font-size: 0.9rem;
-    border-radius: 2px;
+    border-radius: 200px;
     margin: 28% 0% 36% 0%;
     outline: none;
 }
@@ -63,13 +63,13 @@ body {
     padding-bottom: 10px;
     margin: 5px 0px 5px 0px;
     color: white;
-    border-radius: 3px;
+    border-radius: 200px;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-between;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 
 .navImage {
@@ -80,29 +80,30 @@ body {
     background-color: #0000001f;
 }
 
-.platformHolder {
-    display: flex;
-    flex-direction: row;
-}
-
-.platformButton {
-    width: 25%;
+.platformLine {
+    width: 55%;
+    height: 4px;
+    opacity: 0.4;
+    margin-bottom: 19%;
+    margin-top: 5%;
+    border-radius: 50px;
     border-width: 0px;
-    padding: 9px;
-    outline: none;
-    margin: 4px;
-    background-color: #ffffff3d;
-    color: white;
-    border-radius: 3px;
-    font-size: 1rem;
+    background-color: white;
 }
 
-.platformButton:first-child {
-    margin-left: 0px;
+.navButton {
+    padding: 10px;
+    padding-left: 0px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0);
+    border-top: 2px solid rgba(255, 255, 255, 0);
+    border-radius: -6px;
+    margin: 0px;
+    transition: all 0.3s;
 }
 
-.platformButton:last-child {
-    margin-right: 0px;
+.navButton:hover {
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
 }
 
 .twitterButton {
@@ -113,7 +114,7 @@ body {
     font-size: 1rem;
     margin-top: 100%;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 200px;
     border-width: 0px;
     transition: all 0.3s;
 }
@@ -123,10 +124,12 @@ body {
 }
 
 .mainDisplay {
+    scroll-behavior: smooth;
     background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
     width: 85%;
     max-height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .gamesWrapper {
@@ -134,17 +137,24 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .gameBox {
     background-color: white;
     margin: 1%;
+    margin-right: 0px;
     max-width: 180px;
     border: 1px solid #e4e6f2;
+    border-radius: 3px;
     cursor: pointer;
     box-shadow: 0 19px 40px #bbc0d333;
     transition: all 0.3s;
+}
+
+.gameCover {
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
 }
 
 .gameBox:hover {
