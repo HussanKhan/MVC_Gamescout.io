@@ -26,27 +26,31 @@ let model = {
 
     // filtered Games
     filteredGames: [],
-
-    // Games already matches
-    searchMatches: [],
-
 };
 
 // UI
 let view = {
+
     // Holds games that are displayed
     displayGames: ko.observableArray(),
+
+    // Stores all known genres
+    gameGenres: ko.observableArray(),
 
     // Applys UI functions
     init: () => {
         // Default displayed games
         const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
         
-
+        // Loads arrays
         view.displayGames(defaultGames);
+        view.gameGenres(controller.getAllGenres());
 
-        view.navState(view.defaultNavState());
+        // Sets states for nav and menus
+        view.navState(view.states.defaultNavState());
+        view.menuState(view.states.defaultMenuState());
 
+        // Listens for input
         ko.computed(() => {
             const matches = controller.filterTitles(view.userSearch());
     
@@ -89,24 +93,42 @@ let view = {
         },
     },
 
-    defaultNavState: () => {
-        return {
-            platform: view.styles.defaultNavStyle(),
-            price : view.styles.defaultNavStyle(),
-            genre: view.styles.defaultNavStyle(),
-        };
+    // Stores default states
+    states: {
+        defaultNavState: () => {
+            return {
+                platform: view.styles.defaultNavStyle(),
+                price : view.styles.defaultNavStyle(),
+                genre: view.styles.defaultNavStyle(),
+            };
+        },
+
+        defaultMenuState: () => {
+            return {
+                platform: false,
+                price: false,
+                genre: false
+            }
+        }
     },
     
     // Current state of nav
     navState: ko.observable(),
 
+    // Current of all menus
+    menuState: ko.observable(),
+
     // Handles nav interactions
     selectNavOption: (option) => {
-        let newState = view.defaultNavState();
+        let newNavState = view.states.defaultNavState();
+        let newMenuState = view.states.defaultMenuState();
         
-        newState[option] = view.styles.selectedNavStyle();
+        newNavState[option] = view.styles.selectedNavStyle();
+
+        newMenuState[option] = true;
         
-        view.navState(newState);
+        view.navState(newNavState);
+        view.menuState(newMenuState);
     }
 };
 
@@ -118,6 +140,11 @@ let controller = {
         model.getDeals((data) => {
             
             model.allGames = data.Deals;
+
+            for (let i = 0; i < data.Genres.length; i++) {
+                model.allGenres.push({name: data.Genres[i][0]});
+            };
+
             lazyload();
             startDisplay();
 
@@ -127,6 +154,11 @@ let controller = {
     // All games from api
     getAllGames: () => {
         return model.allGames;
+    },
+
+    // All Known Genres
+    getAllGenres: () => {
+        return model.allGenres;
     },
 
     // Checks if genre in game genres
