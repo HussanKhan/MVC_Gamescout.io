@@ -1,5 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
+    <style>
+        .loader {
+            border: 6px solid #f3f3f3; /* Light grey */
+            border-top: 6px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            animation: spin 0.4s linear infinite;
+            
+            }
+
+            .preloader {
+                transition: all 0.5s;
+            }
+
+            @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+            }
+    </style>
+        
+    <div class="preloader" style="height: 100vh;
+    width: 100vw;
+    z-index: 10;">
+        <div style="    margin: 0 auto;
+        width: 50%;
+        margin-top: 19%;">
+            <div class="loader"></div>
+        </div>
+    </div>
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,20 +60,20 @@
                             </li>
 
                             <span data-bind="visible: view.menuState().platform">
-                                <span class="navOptions">
+                                <span class="navOptions" data-bind="click: () => { view.platformMenuOption('PC') }">
                                     <span>PC</span>
                                     <span><img class="navImage" src="css/PC.png" alt=""></span>
                                 </span>
 
-                                <span class="navOptions">
+                                <span class="navOptions" data-bind="click: () => { view.platformMenuOption('PS4') }">
                                         <span>PS4</span>
                                         <span><img class="navImage" src="css/PS4.png" alt=""></span>
                                 </span>
-                                <span class="navOptions">
+                                <span class="navOptions" data-bind="click: () => { view.platformMenuOption('XBOX') }">
                                         <span>XBOX</span>
                                         <span><img class="navImage" src="css/XBOX.png" alt=""></span>
                                 </span>
-                                <span class="navOptions">
+                                <span class="navOptions" data-bind="click: () => { view.platformMenuOption('NINTENDO') }">
                                         <span>Nintendo</span>
                                         <span><img class="navImage" src="css/NINTENDO.png" alt=""></span>
                                 </span>
@@ -54,7 +87,7 @@
                             </li>
 
                             <span class="priceMenu" data-bind="visible: view.menuState().price">
-                                <p class="priceText">Less Than $</p> <input class="priceInput" type="text" name="" id="">
+                                <p class="priceText">Less Than $</p> <input maxlength="2" class="priceInput" type="text" data-bind="textInput: view.userPrice">
                             </span>
 
                             <li class="navOptions navGenre" data-bind="style: view.navState().genre, click: () => { view.selectNavOption('genre') }">
@@ -67,8 +100,8 @@
                             </span>
 
                         </ul>
-
-                        <button class="twitterButton">Follow</button>
+<!-- 
+                        <button class="twitterButton">Follow</button> -->
                 </div>
             </div>
             <div class="mainDisplay">
@@ -76,6 +109,7 @@
                     <div class="gameBox">
                         <!-- <img data-src="" data-bind="attr: {'data-src': image}" src="https://gamescout.io/static/images/Gamecovers/forza%20horizon%204%20%E2%80%93.jpg" height="245px" width="180px" alt=""> -->
                         <img class="lazyload gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" height="245px" width="180px" alt="">
+                            
                             <div class="gameInfo">
                                 <p class="gameTitle" data-bind="text: title"></p>
                                 <span class="platPrice">

@@ -2,15 +2,78 @@
 let model = {
     
     // Gets list of deals and stores in all games
-    getDeals: (callback) => {
+    init: (startView) => {
         $.ajax({
             url: "http://127.0.0.1:8080/masterdeals",
             dataType: 'json',
             async: true,
             success: (data) => {
 
-                callback(data);
-                
+                model.allGames = data.Deals;
+
+                for (let i = 0; i < data.Genres.length; i++) {
+                    model.allGenres.push({name: data.Genres[i][0]});
+                };
+
+                let indexPositions = [];
+
+                // Title : { platPrice: {ps4: {price: $9.99, index: 3}, pc: {price: $7.99, index: 45}} }
+                let tempHolder = {};
+
+                let uniqueTitle = [];
+
+                for (let u = 0; u < model.allGames.length; u++) {
+                    
+                    const title = model.allGames[u].title;
+                    const platform = model.allGames[u].plat;
+                    const price = parseInt(model.allGames[u].price.replace('$', ''));
+
+                    if (uniqueTitle.indexOf(title) <= -1) {
+                        uniqueTitle.push(title);
+                    }
+
+                    if (title in tempHolder) {
+
+                        if (tempHolder[title].platPrice[platform]) {
+                            const storedPrice = tempHolder[title].platPrice[platform].price;
+
+                            if (price < storedPrice) {
+                                tempHolder[title].platPrice[platform]['price'] = price;
+                                tempHolder[title].platPrice[platform]['index'] = u;
+                            }
+
+                        } else {
+                            tempHolder[title].platPrice[platform] = { 'price': price, 'index': u}
+                        }
+
+                    } else {
+                        tempHolder[title] = { 'platPrice': {} };
+                        tempHolder[title].platPrice[platform] = {'price': price, 'index': u};
+                    }
+
+                }
+
+                // console.log(tempHolder);
+
+                let lowestPricedGames = [];
+
+                for (let t = 0; t < uniqueTitle.length; t++) {
+
+                    const game = tempHolder[uniqueTitle[t]]; 
+
+                    const platforms = Object.keys(game.platPrice);
+                    
+                    platforms.forEach((plat) => {
+                        const index = game.platPrice[plat].index;
+                        lowestPricedGames.push(model.allGames[index]);
+                    });
+                    
+                };
+
+                model.sortedGames = lowestPricedGames;
+
+                startView();
+
             },
             error: (data) => {
                 console.log("No Data for Server")
@@ -26,6 +89,9 @@ let model = {
 
     // filtered Games
     filteredGames: [],
+
+    // Sorted deals (Lowest price for each platform)
+    sortedGames: []
 };
 
 // UI
@@ -40,10 +106,13 @@ let view = {
     // Applys UI functions
     init: () => {
         // Default displayed games
-        const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"], unique=true);
+        const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"]);
+
+        // const defaultGames = controller.getAllGames();
         
         // Loads arrays
         view.displayGames(defaultGames);
+
         view.gameGenres(controller.getAllGenres());
 
         // Sets states for nav and menus
@@ -63,10 +132,33 @@ let view = {
             }
     
         });
+
+        ko.computed(() => {
+            const matches = controller.filterPrice(view.userPrice());
+    
+            if (matches && matches.length != 0) {
+                view.displayGames(matches);
+                lazyload();
+            } else {
+                view.displayGames(defaultGames);
+                lazyload();
+            }
+    
+        });
+
+        // removes preloader
+        document.getElementsByClassName('preloader')[0].style.opacity = "0";
+
+        setTimeout(() => {
+            document.getElementsByClassName('preloader')[0].style.display = "none";
+        },500)
     },
 
     // User Search input
     userSearch: ko.observable(),
+
+    // User Price input
+    userPrice: ko.observable(),
 
     // Dynamic styles
     styles: {
@@ -74,9 +166,9 @@ let view = {
         selectedNavStyle: () => {
             return {
                 // selected
-                border: "1px solid white",
+                border: "1px solid #7f8fa6",
                 boxShadow: "0px 0px 5px 0.5px rgba(255,255,255,0.5)",
-                backgroundColor:  "#0000001f",
+                backgroundColor:  "#0000000e",
                 opacity: 1
             }
         },
@@ -129,31 +221,27 @@ let view = {
         
         view.navState(newNavState);
         view.menuState(newMenuState);
+    },
+
+    platformMenuOption: (platform) => {
+        const filteredGames = controller.filterPlatforms(platform);
+
+        view.displayGames(filteredGames);
+
+        lazyload();
+    },
+
+    priceMenuOption: (price) => {
+
     }
 };
 
 // Interacts with model
 let controller = {
 
-    // Stores deals from api into model
-    init: (startDisplay) => {
-        model.getDeals((data) => {
-            
-            model.allGames = data.Deals;
-
-            for (let i = 0; i < data.Genres.length; i++) {
-                model.allGenres.push({name: data.Genres[i][0]});
-            };
-
-            lazyload();
-            startDisplay();
-
-        });
-    },
-
     // All games from api
-    getAllGames: () => {
-        return model.allGames;
+    getAllGames: (unique=false) => {
+        return model.sortedGames
     },
 
     // All Known Genres
@@ -205,10 +293,10 @@ let controller = {
         }
         
 
-        for (let i = 0; i < model.filteredGames.length; i++) {
+        for (let i = 0; i < model.sortedGames.length; i++) {
 
-            if (controller.stringSimilarity(tokens, model.filteredGames[i].title)) {
-                matches.push(model.filteredGames[i]);
+            if (controller.stringSimilarity(tokens, model.sortedGames[i].title)) {
+                matches.push(model.sortedGames[i]);
             }
 
         }
@@ -224,14 +312,14 @@ let controller = {
 
             let addedTitles = [];
 
-            for (let i = 0; i < model.allGames.length; i++) {
+            for (let i = 0; i < model.sortedGames.length; i++) {
 
-                if (controller.checkGenre(model.allGames[i].genre, genres)) {
+                if (controller.checkGenre(model.sortedGames[i].genre, genres)) {
 
-                    if (addedTitles.indexOf(model.allGames[i].title) <= -1) {
+                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
 
-                        addedTitles.push(model.allGames[i].title);
-                        model.filteredGames.push(model.allGames[i]);
+                        addedTitles.push(model.sortedGames[i].title);
+                        model.filteredGames.push(model.sortedGames[i]);
 
                     }
     
@@ -242,11 +330,11 @@ let controller = {
 
         } else {
 
-            for (let i = 0; i < model.allGames.length; i++) {
+            for (let i = 0; i < model.sortedGames.length; i++) {
 
-                if (controller.checkGenre(model.allGames[i].genre, genres)) {
+                if (controller.checkGenre(model.sortedGames[i].genre, genres)) {
                     
-                    model.filteredGames.push(model.allGames[i]);
+                    model.filteredGames.push(model.sortedGames[i]);
     
                 }
             }
@@ -254,6 +342,83 @@ let controller = {
             return model.filteredGames;
         }
 
+    },
+
+    filterPlatforms: (platform, unique=false) => {
+
+        model.filteredGames = [];
+    
+        if (unique) {
+
+            let addedTitles = [];
+
+            for (let i = 0; i < model.sortedGames.length; i++) {
+
+                if (model.sortedGames[i].plat == platform) {
+
+                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
+
+                        addedTitles.push(model.sortedGames[i].title);
+                        model.filteredGames.push(model.sortedGames[i]);
+
+                    }
+    
+                }
+            }
+    
+            return model.filteredGames;
+
+        } else {
+
+            for (let i = 0; i < model.sortedGames.length; i++) {
+
+                if (model.sortedGames[i].plat == platform) {
+                    
+                    model.filteredGames.push(model.sortedGames[i]);
+    
+                }
+            }
+    
+            return model.filteredGames;
+        }
+    },
+
+    filterPrice: (price, unique=false) => {
+        model.filteredGames = [];
+    
+        if (unique) {
+
+            let addedTitles = [];
+
+            for (let i = 0; i < model.sortedGames.length; i++) {
+
+                if (parseInt(model.sortedGames[i].price.replace("$", '')) <= parseInt(price)) {
+
+                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
+
+                        addedTitles.push(model.sortedGames[i].title);
+                        model.filteredGames.push(model.sortedGames[i]);
+
+                    }
+    
+                }
+            }
+    
+            return model.filteredGames;
+
+        } else {
+
+            for (let i = 0; i < model.sortedGames.length; i++) {
+
+                if (parseInt(model.sortedGames[i].price.replace("$", '')) <= parseInt(price)) {
+                    
+                    model.filteredGames.push(model.sortedGames[i]);
+    
+                }
+            }
+    
+            return model.filteredGames;
+        }
     },
 
     // Returns how many token matches
@@ -266,29 +431,20 @@ let controller = {
 
         for (let t = 0; t < tokens.length; t++) {
 
-            if (string.includes(tokens[t])) {
+            if (!(string.includes(tokens[t]))) {
 
-                matches = matches + 1;
-                
-                const ratio = parseInt((matches/allTokens) * 100);
+                return 0;
 
-                if (ratio > sense) {
-
-                    console.log(ratio, string, tokens)
-
-                    return 1;
-                }
-
-            }
+            } 
         }
 
-        return 0;
+        return 1;
     }, 
 
 };
 
 // Starts app by applying bindings
-controller.init(() => {
+model.init(() => {
     ko.applyBindings(view.init());
     lazyload();
 });
