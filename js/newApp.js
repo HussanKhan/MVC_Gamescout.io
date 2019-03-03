@@ -103,21 +103,28 @@ let view = {
     // Stores all known genres
     gameGenres: ko.observableArray(),
 
+    // Text for Platform nav option
+    selectedPlatform: ko.observable("All"),
+
+    // Default games
+    defaultGames: () => {
+        const games = controller.filterGenres(["Highly Rated Games", "Recently Released Games"], view.selectedPlatform());
+        return games;
+    } ,
+
     // Applys UI functions
     init: () => {
-        // Default displayed games
-        const defaultGames = controller.filterGenres(["Highly Rated Games", "Recently Released Games", "Released Last Year"]);
-
-        // const defaultGames = controller.getAllGames();
         
         // Loads arrays
-        view.displayGames(defaultGames);
+        view.displayGames(view.defaultGames());
 
         view.gameGenres(controller.getAllGenres());
 
         // Sets states for nav and menus
         view.navState(view.states.defaultNavState());
         view.menuState(view.states.defaultMenuState());
+        view.platformMenuState(view.states.defaultPlatformMenuState());
+        view.genreMenuState(view.states.defaultGenreMenuState());
 
         // Listens for input
         ko.computed(() => {
@@ -127,31 +134,31 @@ let view = {
                 view.displayGames(matches);
                 lazyload();
             } else {
-                view.displayGames(defaultGames);
+                view.displayGames(view.defaultGames());
                 lazyload();
             }
     
         });
 
+        // Listens for price input
         ko.computed(() => {
-            const matches = controller.filterPrice(view.userPrice());
+            document.getElementsByClassName('mainDisplay')[0].style.opacity = 0;
+
+            const matches = controller.filterPrice(view.userPrice(), view.selectedPlatform());
     
             if (matches && matches.length != 0) {
                 view.displayGames(matches);
                 lazyload();
             } else {
-                view.displayGames(defaultGames);
+                view.displayGames(view.defaultGames());
                 lazyload();
             }
+
+            setTimeout(() => {
+                document.getElementsByClassName('mainDisplay')[0].style.opacity = 1;
+            },200)
     
         });
-
-        // removes preloader
-        document.getElementsByClassName('preloader')[0].style.opacity = "0";
-
-        setTimeout(() => {
-            document.getElementsByClassName('preloader')[0].style.display = "none";
-        },500)
     },
 
     // User Search input
@@ -183,6 +190,18 @@ let view = {
                 opacity: 1
             }
         },
+
+        selectedMenuStyle: () => {
+            return {
+                backgroundColor:  "#0000000e",
+            }
+        },
+
+        defaultMenuStyle: () => {
+            return {
+                backgroundColor: "",
+            }
+        },
     },
 
     // Stores default states
@@ -201,6 +220,26 @@ let view = {
                 price: false,
                 genre: false
             }
+        },
+
+        defaultPlatformMenuState: () => {
+            return {
+                PC: view.styles.defaultMenuStyle(),
+                PS4: view.styles.defaultMenuStyle(),
+                XBOX: view.styles.defaultMenuStyle(),
+                NINTENDO: view.styles.defaultMenuStyle(),
+            }
+        },
+
+        defaultGenreMenuState: () => {
+
+            let defaultGenre = {};
+
+            for (let i = 0; i < view.gameGenres().length; i++) {
+                defaultGenre[view.gameGenres()[i].name] = view.styles.defaultMenuStyle();
+            }
+
+            return defaultGenre;
         }
     },
     
@@ -210,10 +249,17 @@ let view = {
     // Current of all menus
     menuState: ko.observable(),
 
+    // State of 
+    platformMenuState: ko.observable(),
+
+    genreMenuState: ko.observable(),
+
     // Handles nav interactions
     selectNavOption: (option) => {
         let newNavState = view.states.defaultNavState();
         let newMenuState = view.states.defaultMenuState();
+
+        view.userPrice('');
         
         newNavState[option] = view.styles.selectedNavStyle();
 
@@ -223,12 +269,37 @@ let view = {
         view.menuState(newMenuState);
     },
 
+    // Handles selctions in Platofrm menu
     platformMenuOption: (platform) => {
+
+        view.selectedPlatform(platform);
+        
+        let defaultPlatform = view.states.defaultPlatformMenuState();
+
+        defaultPlatform[platform] = view.styles.selectedMenuStyle();
+        
+        view.platformMenuState(defaultPlatform);
+
         const filteredGames = controller.filterPlatforms(platform);
 
         view.displayGames(filteredGames);
 
         lazyload();
+
+    },
+
+    genreMenuOption: (genre) => {
+
+        const filteredGames = controller.filterGenres([genre], view.selectedPlatform());
+        const defaultState = view.states.defaultGenreMenuState();
+
+        defaultState[genre] = view.styles.selectedMenuStyle();
+        
+        view.genreMenuState(defaultState);
+        view.displayGames(filteredGames);
+
+        lazyload();
+
     },
 
     priceMenuOption: (price) => {
@@ -278,9 +349,7 @@ let controller = {
             let currentToken = [];
             
             for (let t = 0; t < query.length; t++) {
-
                 currentToken.push(query[t]);
-
                 if ( ((t+1) % 3) === 0) {
                     tokens.push(currentToken.join(''));
                     currentToken = [];
@@ -294,11 +363,9 @@ let controller = {
         
 
         for (let i = 0; i < model.sortedGames.length; i++) {
-
             if (controller.stringSimilarity(tokens, model.sortedGames[i].title)) {
                 matches.push(model.sortedGames[i]);
             }
-
         }
 
         return matches;
@@ -306,119 +373,74 @@ let controller = {
     },
 
     // Returns filtered games by genre
-    filterGenres: (genres, unique=false) => {
+    filterGenres: (genres, platform) => {
 
-        if (unique) {
+        console.log(platform);
 
-            let addedTitles = [];
+        model.filteredGames = [];
+
+        if (platform != 'All') {
 
             for (let i = 0; i < model.sortedGames.length; i++) {
-
-                if (controller.checkGenre(model.sortedGames[i].genre, genres)) {
-
-                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
-
-                        addedTitles.push(model.sortedGames[i].title);
-                        model.filteredGames.push(model.sortedGames[i]);
-
-                    }
-    
+                if ((controller.checkGenre(model.sortedGames[i].genre, genres)) && model.sortedGames[i].plat == platform) {
+                    model.filteredGames.push(model.sortedGames[i]);
                 }
             }
-    
-            return model.filteredGames;
 
         } else {
+            let tempArr = [];
 
             for (let i = 0; i < model.sortedGames.length; i++) {
-
-                if (controller.checkGenre(model.sortedGames[i].genre, genres)) {
-                    
-                    model.filteredGames.push(model.sortedGames[i]);
-    
+                if (tempArr.indexOf(model.sortedGames[i].title) <= -1) {
+                    if ((controller.checkGenre(model.sortedGames[i].genre, genres))) {
+                        model.filteredGames.push(model.sortedGames[i]);
+                        tempArr.push(model.sortedGames[i].title);
+                    }
                 }
             }
-    
-            return model.filteredGames;
+
         }
 
+        return model.filteredGames;
     },
 
-    filterPlatforms: (platform, unique=false) => {
+    filterPlatforms: (platform) => {
 
         model.filteredGames = [];
     
-        if (unique) {
-
-            let addedTitles = [];
-
-            for (let i = 0; i < model.sortedGames.length; i++) {
-
-                if (model.sortedGames[i].plat == platform) {
-
-                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
-
-                        addedTitles.push(model.sortedGames[i].title);
-                        model.filteredGames.push(model.sortedGames[i]);
-
-                    }
-    
-                }
+        for (let i = 0; i < model.sortedGames.length; i++) {
+            if (model.sortedGames[i].plat == platform) {     
+                model.filteredGames.push(model.sortedGames[i]);
             }
-    
-            return model.filteredGames;
-
-        } else {
-
-            for (let i = 0; i < model.sortedGames.length; i++) {
-
-                if (model.sortedGames[i].plat == platform) {
-                    
-                    model.filteredGames.push(model.sortedGames[i]);
-    
-                }
-            }
-    
-            return model.filteredGames;
         }
+
+        return model.filteredGames;
     },
 
-    filterPrice: (price, unique=false) => {
+    // Filter games based on price and platform
+    filterPrice: (price, platform) => {
+
         model.filteredGames = [];
     
-        if (unique) {
-
-            let addedTitles = [];
+        if (platform != 'All') {
 
             for (let i = 0; i < model.sortedGames.length; i++) {
-
-                if (parseInt(model.sortedGames[i].price.replace("$", '')) <= parseInt(price)) {
-
-                    if (addedTitles.indexOf(model.sortedGames[i].title) <= -1) {
-
-                        addedTitles.push(model.sortedGames[i].title);
-                        model.filteredGames.push(model.sortedGames[i]);
-
-                    }
-    
+                if (parseInt(model.sortedGames[i].price.replace("$", '')) <= parseInt(price) && model.sortedGames[i].plat == platform) {
+                    model.filteredGames.push(model.sortedGames[i]);
                 }
             }
-    
-            return model.filteredGames;
 
         } else {
 
             for (let i = 0; i < model.sortedGames.length; i++) {
-
                 if (parseInt(model.sortedGames[i].price.replace("$", '')) <= parseInt(price)) {
-                    
                     model.filteredGames.push(model.sortedGames[i]);
-    
                 }
             }
-    
-            return model.filteredGames;
+
         }
+
+        return model.filteredGames;
     },
 
     // Returns how many token matches
@@ -430,11 +452,8 @@ let controller = {
         string = string.split(' ').join('').toLowerCase()
 
         for (let t = 0; t < tokens.length; t++) {
-
             if (!(string.includes(tokens[t]))) {
-
                 return 0;
-
             } 
         }
 
