@@ -279,3 +279,112 @@ body {
 .NINTENDO {
     color: #e74c3c;
 }
+
+.modal {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    background-color: #0000004b;
+    overflow-y: auto;
+    z-index: 3;
+}
+
+.modalGame {
+    margin: 0 auto;
+    width: 33%;
+    background-color: white;
+    margin-top: 2%;
+    margin-bottom: 8%;
+}
+
+.modalCover {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.modalGameDetails {
+    margin: 14px;
+    color: #7f8fa6;
+}
+
+.modalGameTitle {
+    text-align: right;
+    margin: 0px;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-size: 1.3rem;
+}
+
+.modalGameCover {
+    min-width: 262px;
+    max-width: 262px;
+    min-height: 374px;
+    max-height: 374px;
+}
+
+.modalGameDesc {
+    font-size: 0.9rem;
+    margin: 0px;
+}
+
+.modalExtraDetails {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin-top: 7%;
+    font-size: 0.85rem;
+    justify-content: space-between;
+}
+
+.modalOffer {
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid #7f8fa68c;
+    justify-content: space-between;
+    transition: all 0.2s;
+}
+
+.modalOffer:hover {
+    background-color: #0000000e;
+}
+
+.offerLeft {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    color: #7f8fa6;
+}
+
+.offerDetails {
+    font-size: 0.8rem;
+}
+
+.offerPlatform {
+    margin-right: 20%;
+}
+
+.offerLink {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    /* margin-top: 18px; */
+    color: white;
+    background-color: #e74c3c;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin: 17px;
+    padding: 11px;
+}
+
+.offerPlatformImg {
+    height: 15px;
+    position: absolute;
+}
+
+.offerSourceLabel {
+    margin-right: 3%;
+}
