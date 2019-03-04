@@ -47,139 +47,53 @@
 
     <body>
 
-        <div class="modal">
+        <div class="modal" data-bind="click: view.modalOutClick(event)">
             <div class="modalGame">
-                <div class="modalHeader">
-
-                </div>
-
-                <div class="modalCover">
-                        <img class="modalGameCover" src="https://gamescout.io/static/images/Gamecovers/god%20of%20war.jpg" height="374px" width="262px" alt="">
-                        <div class="modalGameDetails">
-                            <h1 class="modalGameTitle">God of War</h1>
-                            <p class="modalGameDesc">"It is a new beginning for Kratos. Living as a man, outside the shadow of the gods, he seeks solitude in the unfamiliar lands of Norse mythology. With new purpose and his son at his side, Kratos must fight for survival as powerful forces threaten to disrupt the new life he has created..."</p>
-                            <div class="modalExtraDetails">
-                                <span class="modalRating">Rating 96%</span>
-                                <span class="modalReleaseDate">Release Date 2018-Apr-20</span>
-                            </div>
+                <!-- <div class="modalCover">
+                    <img class="modalGameCover" height="374px" width="262px" data-bind="attr: {'src': 'https://gamescout.io/' + view.modalInfo().image}" src="" alt="">
+           
+                    <div class="modalGameDetails">
+                        <h1 class="modalGameTitle" data-bind="text: view.modalInfo().title">No Man's Sky</h1>
+                        <div class="modalExtraDetails">
+                            <span class="modalRating">Rating 96%</span>
+                            <span class="modalReleaseDate">Release Date 2018-Apr-20</span> -->
+                            <!-- <span class="modalMin">
+                                <span data-bind="text: '$' +  view.modalInfo().min"></span>
+                                <span class="modalRange">min</span>
+                            </span>
+                            <span class="modalMin">
+                                <span data-bind="text: '$' +  view.modalInfo().max"></span>
+                                <span class="modalRange">max</span>
+                            </span>
                         </div>
-                </div>
+                    </div>
+                </div> -->
 
-                <div class="modalOffers">
+                <div class="modalOffers" data-bind="foreach: view.modalInfo().offers">
                     <div class="modalOffer">
                         <div class="offerLeft">
-                            <p>God of War Game of the Year Edition</p>
+                            <p data-bind="text: title"></p>
                             <span class="offerDetails">
-                                <span class="offerPlatform">
-                                    <span class="offerPlatformLabel">Platform</span>
-                                    <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                </span>
-                                <span class="offerSource">
-                                    <span class="offerSourceLabel">Source</span>
-                                    <span class="offerSourceName">Humble Bundle</span>
-                                </span>
+                                    <span class="offerSourceName" data-bind="text: source"></span>
+                                    <img class="offerPlatformImg" src="" data-bind="attr: {'src': 'css/' + plat + '.png'}" alt="">
                             </span>
                         </div>
                         <div class="offerRight">
-                            <a href="" class="offerLink">Buy for $7.99</a>
+                            <a href="" data-bind="text: 'Buy for ' + price, attr: {'href': link}" class="offerLink">Buy for $7.99</a>
                         </div>
                     </div>
-                    <div class="modalOffer">
-                            <div class="offerLeft">
-                                <p>God of War Game of the Year Edition</p>
-                                <span class="offerDetails">
-                                    <span class="offerPlatform">
-                                        <span class="offerPlatformLabel">Platform</span>
-                                        <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                    </span>
-                                    <span class="offerSource">
-                                        <span class="offerSourceLabel">Source</span>
-                                        <span class="offerSourceName">Humble Bundle</span>
-                                    </span>
-                                </span>
-                            </div>
-                            <div class="offerRight">
-                                <a href="" class="offerLink">Buy for $7.99</a>
-                            </div>
-                        </div>
-                        <div class="modalOffer">
-                                <div class="offerLeft">
-                                    <p>God of War Game of the Year Edition</p>
-                                    <span class="offerDetails">
-                                        <span class="offerPlatform">
-                                            <span class="offerPlatformLabel">Platform</span>
-                                            <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                        </span>
-                                        <span class="offerSource">
-                                            <span class="offerSourceLabel">Source</span>
-                                            <span class="offerSourceName">Humble Bundle</span>
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="offerRight">
-                                    <a href="" class="offerLink">Buy for $7.99</a>
-                                </div>
-                            </div>
-                            <div class="modalOffer">
-                                    <div class="offerLeft">
-                                        <p>God of War Game of the Year Edition</p>
-                                        <span class="offerDetails">
-                                            <span class="offerPlatform">
-                                                <span class="offerPlatformLabel">Platform</span>
-                                                <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                            </span>
-                                            <span class="offerSource">
-                                                <span class="offerSourceLabel">Source</span>
-                                                <span class="offerSourceName">Humble Bundle</span>
-                                            </span>
-                                        </span>
-                                    </div>
-                                    <div class="offerRight">
-                                        <a href="" class="offerLink">Buy for $7.99</a>
-                                    </div>
-                                </div>
-                                <div class="modalOffer">
-                                        <div class="offerLeft">
-                                            <p>God of War Game of the Year Edition</p>
-                                            <span class="offerDetails">
-                                                <span class="offerPlatform">
-                                                    <span class="offerPlatformLabel">Platform</span>
-                                                    <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                                </span>
-                                                <span class="offerSource">
-                                                    <span class="offerSourceLabel">Source</span>
-                                                    <span class="offerSourceName">Humble Bundle</span>
-                                                </span>
-                                            </span>
-                                        </div>
-                                        <div class="offerRight">
-                                            <a href="" class="offerLink">Buy for $7.99</a>
-                                        </div>
-                                    </div>
-                                    <div class="modalOffer">
-                                            <div class="offerLeft">
-                                                <p>God of War Game of the Year Edition</p>
-                                                <span class="offerDetails">
-                                                    <span class="offerPlatform">
-                                                        <span class="offerPlatformLabel">Platform</span>
-                                                        <img class="offerPlatformImg" src="css/PS4.png" alt="">
-                                                    </span>
-                                                    <span class="offerSource">
-                                                        <span class="offerSourceLabel">Source</span>
-                                                        <span class="offerSourceName">Humble Bundle</span>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div class="offerRight">
-                                                <a href="" class="offerLink">Buy for $7.99</a>
-                                            </div>
-                                        </div>
                 </div>
                 
             </div>
         </div>
 
+        <div class="mobileNavBar">
+                <img  class="menuIcon" src="css/menuIcon.png" alt="">
+                <h2 class="logo mobileLogo">GameScout</h2>
+        </div>
+
         <div class="wrapper">
+            
             <div class="sidebarWrapper">
                 <div class="sidebar">
                     <h2 class="logo">GameScout</h2>
@@ -239,9 +153,9 @@
             </div>
             <div class="mainDisplay">
                 <div class="gamesWrapper" data-bind="foreach: view.displayGames">
-                    <div class="gameBox">
+                    <div class="gameBox" data-bind="click: () => { view.modalOpen(title)}" >
                         <!-- <img data-src="" data-bind="attr: {'data-src': image}" src="https://gamescout.io/static/images/Gamecovers/forza%20horizon%204%20%E2%80%93.jpg" height="245px" width="180px" alt=""> -->
-                        <img class="lazyload gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" height="245px" width="180px" alt="">
+                        <img class="lazyload gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" alt="">
                             
                             <div class="gameInfo">
                                 <p class="gameTitle" data-bind="text: title"></p>
@@ -269,10 +183,19 @@
             // removes preloader
         document.getElementsByClassName('preloader')[0].style.opacity = "0";
 
-        setTimeout(() => {
-            document.getElementsByClassName('preloader')[0].style.display = "none";
-        },200)
+            setTimeout(() => {
+                document.getElementsByClassName('preloader')[0].style.display = "none";
+            },200)
         },300);
     };
+    </script>
+
+    <script>
+        // const modal = document.getElementsByClassName('modal')[0];
+        // window.onclick = function(event) {
+        // if (event.target == modal) {
+        //     modal.style.display = "none";
+        // }
+        // }
     </script>
 </html>

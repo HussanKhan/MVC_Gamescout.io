@@ -15,8 +15,6 @@ let model = {
                     model.allGenres.push({name: data.Genres[i][0]});
                 };
 
-                let indexPositions = [];
-
                 // Title : { platPrice: {ps4: {price: $9.99, index: 3}, pc: {price: $7.99, index: 45}} }
                 let tempHolder = {};
 
@@ -29,7 +27,10 @@ let model = {
                     const price = parseInt(model.allGames[u].price.replace('$', ''));
 
                     if (uniqueTitle.indexOf(title) <= -1) {
+                        model.dealOffers[title] = [model.allGames[u]];
                         uniqueTitle.push(title);
+                    } else {
+                        model.dealOffers[title].push(model.allGames[u]);
                     }
 
                     if (title in tempHolder) {
@@ -91,7 +92,11 @@ let model = {
     filteredGames: [],
 
     // Sorted deals (Lowest price for each platform)
-    sortedGames: []
+    sortedGames: [],
+
+    // Stores deals information for each game
+    // {title of game: [offers]}
+    dealOffers: {}
 };
 
 // UI
@@ -105,6 +110,51 @@ let view = {
 
     // Text for Platform nav option
     selectedPlatform: ko.observable("All"),
+
+    // Click out of modal
+    modalOutClick: (event) => {
+        const modal = document.getElementsByClassName('modal')[0];
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    },
+
+    sidebarToggle: () => {
+
+    },
+
+    // Opens modal for game
+    modalOpen: (gameName) => {
+        const modal = document.getElementsByClassName('modal')[0];
+        
+        modal.style.display = 'block';
+
+        const offers = controller.getOffers(gameName);
+
+        let min = 1000;
+        let max = 0;
+
+        let platforms = [];
+
+        for (let i = 0; i < offers.length; i++) {
+            const price = parseInt(offers[i].price.replace("$", ""));
+            if (price < min) {
+                min = price;
+            }
+
+            if (price > max) {
+                max = price
+            }
+        }
+
+        const modalInfo = {title: gameName, offers: offers, image: offers[0].image, platforms: platforms, min:min, max:max};
+
+        console.log(gameName);
+
+        view.modalInfo(modalInfo);
+
+        console.log(offers);
+    }, 
 
     // Default games
     defaultGames: () => {
@@ -249,10 +299,20 @@ let view = {
     // Current of all menus
     menuState: ko.observable(),
 
-    // State of 
+    // State of platform menu
     platformMenuState: ko.observable(),
 
+    // state of genre menu
     genreMenuState: ko.observable(),
+
+    // Holds info for modal
+    modalInfo: ko.observable({
+        title: "Old",
+        offers: [],
+        image: "#",
+        min:"",
+        max:""
+    }),
 
     // Handles nav interactions
     selectNavOption: (option) => {
@@ -288,6 +348,7 @@ let view = {
 
     },
 
+    // Handles genre selection
     genreMenuOption: (genre) => {
 
         const filteredGames = controller.filterGenres([genre], view.selectedPlatform());
@@ -301,10 +362,6 @@ let view = {
         lazyload();
 
     },
-
-    priceMenuOption: (price) => {
-
-    }
 };
 
 // Interacts with model
@@ -441,6 +498,12 @@ let controller = {
         }
 
         return model.filteredGames;
+    },
+
+    // Returns offers for a specific game
+    getOffers: (title) => {
+        const offers = model.dealOffers[title];
+        return offers;
     },
 
     // Returns how many token matches

@@ -4,6 +4,10 @@ import json
 
 app = Flask(__name__)
 
+@app.route('/', methods=["GET"])
+def home():
+    return render_template('redesign.html')
+
 @app.route('/masterdeals', methods=["GET"])
 def amazon_api():
     with open("masterdeals.json", "r") as f:
