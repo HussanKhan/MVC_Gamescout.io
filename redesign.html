@@ -88,8 +88,10 @@
         </div>
 
         <div class="mobileNavBar">
-                <img  class="menuIcon" src="css/menuIcon.png" alt="">
-                <h2 class="logo mobileLogo">GameScout</h2>
+                <img  class="menuIcon" src="css/menuIcon.png" alt="" data-bind="click: () => {view.sidebarToggle()}">
+                <img  class="backIcon" src="css/backIcon.png" alt="" data-bind="click: () => {view.modalOutClick('close')}">
+
+                <h2 class="logo mobileLogo" data-bind="text: view.selectedPlatform"></h2>
         </div>
 
         <div class="wrapper">

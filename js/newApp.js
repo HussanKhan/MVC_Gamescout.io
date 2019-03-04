@@ -113,41 +113,83 @@ let view = {
 
     // Click out of modal
     modalOutClick: (event) => {
+
+        if (view.states.mobile) {
+            const menu = document.getElementsByClassName('menuIcon')[0];
+            const back = document.getElementsByClassName('backIcon')[0];
+
+            back.style.opacity = 0;
+
+            setTimeout(() => {
+                back.style.display = "none";
+                menu.style.display = "block";
+                menu.style.opacity = 1;
+            }, 200);
+        }
+
         const modal = document.getElementsByClassName('modal')[0];
-        if (event.target == modal) {
+        if (event.target == modal || event == 'close') {
             modal.style.display = 'none';
         }
     },
 
+    // Opens and closes sidebar for mobile view
     sidebarToggle: () => {
+        
+        view.states.sidebar = !(view.states.sidebar);
+
+        const sidebar = document.getElementsByClassName('sidebarWrapper')[0];
+        const menu = document.getElementsByClassName('menuIcon')[0];
+
+        console.log('run')
+
+        if (view.states.sidebar) {
+
+            menu.style.transform = "rotate(90deg)";
+            sidebar.style.display = "block";
+            sidebar.style.width = "100%";
+
+            setTimeout(() => {
+                sidebar.style.opacity = 1;
+            },200);
+
+        } else {
+            sidebar.style.opacity = 0;
+
+            setTimeout(() => {
+                sidebar.style.width = "0%";
+                sidebar.style.display = "none";
+            },300);
+            
+            menu.style.transform = "rotate(0deg)";
+            
+        }
 
     },
 
     // Opens modal for game
     modalOpen: (gameName) => {
+
+        if (view.states.mobile) {
+            const menu = document.getElementsByClassName('menuIcon')[0];
+            const back = document.getElementsByClassName('backIcon')[0];
+
+            menu.style.opacity = 0;
+
+            setTimeout(() => {
+                menu.style.display = "none";
+                back.style.display = "block";
+                back.style.opacity = 1;
+            }, 200);
+        }
+
         const modal = document.getElementsByClassName('modal')[0];
         
         modal.style.display = 'block';
 
         const offers = controller.getOffers(gameName);
 
-        let min = 1000;
-        let max = 0;
-
-        let platforms = [];
-
-        for (let i = 0; i < offers.length; i++) {
-            const price = parseInt(offers[i].price.replace("$", ""));
-            if (price < min) {
-                min = price;
-            }
-
-            if (price > max) {
-                max = price
-            }
-        }
-
-        const modalInfo = {title: gameName, offers: offers, image: offers[0].image, platforms: platforms, min:min, max:max};
+        const modalInfo = {title: gameName, offers: offers, image: offers[0].image};
 
         console.log(gameName);
 
@@ -175,6 +217,13 @@ let view = {
         view.menuState(view.states.defaultMenuState());
         view.platformMenuState(view.states.defaultPlatformMenuState());
         view.genreMenuState(view.states.defaultGenreMenuState());
+
+        // Checks if mobile view 
+        const display = window.innerWidth;
+
+        if (display <= 615) {
+            view.states.mobile = true;
+        }
 
         // Listens for input
         ko.computed(() => {
@@ -264,6 +313,10 @@ let view = {
             };
         },
 
+        sidebar: false,
+
+        mobile: false,
+
         defaultMenuState: () => {
             return {
                 platform: false,
@@ -310,8 +363,6 @@ let view = {
         title: "Old",
         offers: [],
         image: "#",
-        min:"",
-        max:""
     }),
 
     // Handles nav interactions

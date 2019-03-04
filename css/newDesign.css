@@ -27,8 +27,10 @@ body {
     height: 100vh;
     border-right: 1px solid #7f8fa659;
     /* box-shadow: 0 3px 40px rgb(48, 49, 51); */
+    background-color: white;
     box-shadow: 0 1px 40px rgba(187,192,211,0.3);
     z-index: 1;
+    transition: all 0.2s;
 }
 
 .sidebar {
@@ -185,7 +187,7 @@ body {
     max-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 .gamesWrapper {
@@ -406,23 +408,119 @@ body {
 }
 
 .mobileNavBar {
-    width: 100vw;
+    width: -webkit-fill-available;
     border-bottom: 1px solid #7f8fa659;
     background-color: white;
-    display: flex;
+    display: none;
     flex-wrap: nowrap;
+    padding: 2.3%;
     justify-content: space-between;
     flex-direction: row;
     box-shadow: 0 1px 40px rgba(187,192,211,0.3);
-    z-index: 1;
+    position: fixed;
+    z-index: 3;
 }
 
 .menuIcon {
     height: 36px;
     margin-left: 2%;
+    transition: all 0.2s;
+}
+
+.backIcon {
+    height: 36px;
+    display: none;
+    margin-left: 2%;
+    transition: all 0.2s;
 }
 
 .logo.mobileLogo {
     margin: 0px;
     margin-right: 2%;
+}
+
+
+@media (max-width: 1200px) {
+    .gameBox {
+        max-width: 140px;
+    }
+
+    .offerDetails {
+        width: 50%;
+    }
+
+    .modalGame {
+        width: 50%;
+    }
+
+    .gameCover {
+        height: 205px;
+        width: 140px;
+    }
+
+    .sidebarWrapper {
+        width: 25%;
+    }
+
+    .mainDisplay {
+        width: 75%;
+    }
+
+}
+
+@media (max-width: 760px) {
+    .gameBox {
+        max-width: 100px;
+        margin: 0.3%;
+        margin-right: 0px;
+    }
+
+    .modalGame {
+        width: 75%;
+    }
+
+    .gameCover {
+        height: 135px;
+        width: 100px;
+    }
+
+    .sidebarWrapper {
+        width: 30%;
+    }
+
+    .mainDisplay {
+        width: 70%;
+    }
+
+    .gameTitle {
+        font-size: 0.7rem;
+    }
+
+    .platformImage {
+        height: 15px;
+    }
+}
+
+
+@media (max-width: 615px) {
+    .mobileNavBar {
+        display: flex;
+    }
+
+    .wrapper {
+        padding-top: 13%;
+    }
+
+    .modalGame {
+        width: 100%;
+    }
+    .sidebarWrapper {
+        width: 0%;
+        opacity: 0;
+        display: none;
+        position: fixed;
+    }
+    .mainDisplay {
+        width: 100%;
+    }
 }
