@@ -4,9 +4,48 @@ import json
 
 app = Flask(__name__)
 
-@app.route('/', methods=["GET"])
+@app.route('/redesign', methods=["GET"])
 def home():
     return render_template('redesign.html')
+
+# More Game Info
+@app.route('/gamedeal', methods=["GET"])
+def gameDeal():
+
+    title = request.args.get('game')
+
+
+    # Connec tto DBs
+    deals_DATABASE = GetDeals()
+    gamextra = GetGameInfo()
+
+    # Finds game details from deep database
+    db_res = gamextra.game_info(title)
+
+    gamextra.close_session()
+    
+    try:
+        # Finds deal related to game in current db
+        game_deals = deals_DATABASE.deal_info(title)
+    except Exception:
+        game_deals = []
+
+    deals_DATABASE.close_session()
+
+    price = 0
+
+    # Find lowest price for game
+    for g in game_deals:
+        gamePrice = ''.join(re.findall(r'\d+', g.price))
+
+        if price == 0:
+            price = gamePrice
+
+        if gamePrice < price:
+            price = gamePrice
+
+    return render_template('redesign.html', title=db_res.name, image=db_res.image, summary=db_res.summary, lowestPrice=price)
+
 
 @app.route('/masterdeals', methods=["GET"])
 def amazon_api():
