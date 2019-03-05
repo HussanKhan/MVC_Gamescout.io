@@ -21,7 +21,7 @@ body {
 }
 
 .sidebarWrapper {
-    width: 15%;
+    width: 290px;
     /* background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     background: linear-gradient(-230deg, #c86dd7 0%, #3023AE 100%); */
     height: 100vh;
@@ -30,6 +30,7 @@ body {
     background-color: white;
     box-shadow: 0 1px 40px rgba(187,192,211,0.3);
     z-index: 1;
+    overflow-y: auto;
     transition: all 0.2s;
 }
 
@@ -296,7 +297,7 @@ body {
 
 .modalGame {
     margin: 0 auto;
-    width: 32%;
+    width: 40%;
     position: relative;
     top: 45%;
     transform: perspective(1px) translateY(-45%);

@@ -35,7 +35,7 @@ def gameDeal():
 
     # Find lowest price for game
     for g in game_deals:
-        gamePrice = ''.join(re.findall(r'\d+', g.price))
+        gamePrice = '.'.join(re.findall(r'\d+', g.price))
 
         if price == 0:
             price = gamePrice

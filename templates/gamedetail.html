@@ -50,7 +50,7 @@
 
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@gamescout_io" />
-        <meta name="twitter:title" content="${{ price }} - {{ title }} Game Deal" />
+        <meta name="twitter:title" content="${{ lowestPrice }} - {{ title }} Game Deal" />
         <meta name="twitter:description" content="{{ summary }}" />
         <meta name="twitter:image" content="https://gamescout.io/{{ image }}" />
 
@@ -74,7 +74,7 @@
         </div>
 
         <div class="wrapper">
-                <div class="modal" data-bind="click: view.modalOutClick(event)">
+                <div class="modal" data-bind="click: (event) => {view.modalOutClick(event)}">
                         <div class="modalGame">
                             <div class="modalOffers" data-bind="foreach: view.modalInfo().offers">
                                 <div class="modalOffer">
