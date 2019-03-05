@@ -157,6 +157,8 @@ let view = {
     
         });
 
+        view.openQueryGame();
+
     },
 
     // Opens game if query
@@ -165,6 +167,8 @@ let view = {
         if (!(window.location.search.includes("="))) {
             return 1;
         }
+
+        console.log("VALID")
 
         const query = window.location.search.replace('?', '');
         const allQueries = query.split("&");
@@ -209,6 +213,9 @@ let view = {
         if (event.target == modal || event == 'close') {
             modal.style.display = 'none';
         }
+
+        history.pushState('', '', '/');
+
     },
 
     // Opens and closes sidebar for mobile view
@@ -257,6 +264,9 @@ let view = {
         console.log(gameName);
 
         modal.style.display = 'block';
+
+        history.pushState('', '', '/gamedeal?game=' + gameName);
+
         view.modalInfo(modalInfo);
     }, 
 

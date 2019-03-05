@@ -14,7 +14,6 @@ def gameDeal():
 
     title = request.args.get('game')
 
-
     # Connec tto DBs
     deals_DATABASE = GetDeals()
     gamextra = GetGameInfo()
@@ -56,4 +55,4 @@ def amazon_api():
 
 if __name__ == '__main__':
     CORS(app)
-    app.run(host="127.0.0.1", port="8080")
+    app.run(host="127.0.0.1", port="8080", debug=True)
