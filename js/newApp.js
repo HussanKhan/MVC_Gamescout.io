@@ -123,6 +123,7 @@ let view = {
             setTimeout(() => {
                 back.style.display = "none";
                 menu.style.display = "block";
+                menu.style.transform = "rotate(0deg)";
                 menu.style.opacity = 1;
             }, 200);
         }
@@ -170,33 +171,44 @@ let view = {
     // Opens modal for game
     modalOpen: (gameName) => {
 
+        const modal = document.getElementsByClassName('modal')[0];
+        const offers = controller.getOffers(gameName);
+        const modalInfo = {title: gameName, offers: offers, image: offers[0].image};
+
+        view.mobileModalCheck(offers);
+
+        console.log(gameName);
+
+        modal.style.display = 'block';
+        view.modalInfo(modalInfo);
+    }, 
+
+    // Special styling for modal on mobile
+    mobileModalCheck: (offers) => {
+
+        const container = document.getElementsByClassName('modalGame')[0];
+        
+        if (offers.length > 6 && !(view.states.mobile)) {
+            container.style.marginTop = "2%";   
+        } else {
+            container.style.marginTop = "0%"; 
+        }
+
         if (view.states.mobile) {
             const menu = document.getElementsByClassName('menuIcon')[0];
             const back = document.getElementsByClassName('backIcon')[0];
 
+            menu.style.transform = "rotate(90deg)";
             menu.style.opacity = 0;
-
+            
             setTimeout(() => {
                 menu.style.display = "none";
                 back.style.display = "block";
+                back.style.transform = "rotate(0deg)";
                 back.style.opacity = 1;
             }, 200);
         }
-
-        const modal = document.getElementsByClassName('modal')[0];
-        
-        modal.style.display = 'block';
-
-        const offers = controller.getOffers(gameName);
-
-        const modalInfo = {title: gameName, offers: offers, image: offers[0].image};
-
-        console.log(gameName);
-
-        view.modalInfo(modalInfo);
-
-        console.log(offers);
-    }, 
+    },
 
     // Default games
     defaultGames: () => {

@@ -297,12 +297,6 @@ body {
 .modalGame {
     margin: 0 auto;
     width: 32%;
-    background-color: white;
-    /* margin-top: 2%;
-    margin-bottom: 8%; */
-
-    /* margin-top: 5%; */
-
     position: relative;
     top: 45%;
     transform: perspective(1px) translateY(-45%);
@@ -359,13 +353,15 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    background-color: white;
     border-bottom: 0.7px solid #7f8fa68c;
     justify-content: space-between;
     transition: all 0.2s;
 }
 
 .modalOffer:hover {
-    background-color: #0000000e;
+    /* background-color: #0000000e; */
+    background-color: #f1f2f6;
 }
 
 .offerLeft {
@@ -417,7 +413,7 @@ body {
     justify-content: space-between;
     flex-direction: row;
     box-shadow: 0 1px 40px rgba(187,192,211,0.3);
-    position: fixed;
+    /* position: sticky; */
     z-index: 3;
 }
 
@@ -431,6 +427,7 @@ body {
     height: 36px;
     display: none;
     margin-left: 2%;
+    transform: rotate(-90deg);
     transition: all 0.2s;
 }
 
@@ -506,17 +503,21 @@ body {
     .mobileNavBar {
         display: flex;
     }
-
-    .wrapper {
-        padding-top: 13%;
-    }
-
     .modalGame {
         width: 100%;
+        transform: none;
+        position: static;
+    }
+    .sidebar {
+        margin-bottom: 27%;
+    }
+    .mobileSpacer {
+        opacity: 1;
     }
     .sidebarWrapper {
         width: 0%;
         opacity: 0;
+        overflow-y: auto;
         display: none;
         position: fixed;
     }
