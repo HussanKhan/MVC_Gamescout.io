@@ -259,7 +259,7 @@ var ViewModel = function() {
     }
 
     $.ajax({
-        url: "http://127.0.0.1:8080/masterdeals",
+        url: "https://gamescout.io/masterdeals",
         dataType: 'json',
         async: true,
         success: function(data) {

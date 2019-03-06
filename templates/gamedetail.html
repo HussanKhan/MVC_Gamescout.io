@@ -1,40 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
-    <style>
-        .loader {
-            border: 6px solid #f3f3f3; /* Light grey */
-            border-top: 6px solid #3498db; /* Blue */
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            animation: spin 0.4s linear infinite;
-            
-            }
-
-            .preloader {
-                transition: all 0.5s;
-            }
-
-            @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-            }
-    </style>
-        
-    <div class="preloader" style="height: 100vh;
-    width: 100vw;
-    z-index: 10;">
-        <div style="margin: 0 auto;
-        width: 50%;
-        position: relative;
-        top: 40%;">
-            <div class="loader"></div>
-        </div>
-    </div>
-
-    
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -42,10 +8,7 @@
         <title>Best Game Deals Website on the Internet - Everyday Deals</title>
         <meta name="description" content="We search multiple gaming sites everyday and aggregate game deals. Our gaming deals are updated everyday. Our aggregator guarantees the lowest priced games around.">
         <meta name="keywords" content="pc game deals, ps4 game deals, video game deal">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/newDesign.css') }}">
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
         <meta name="google-site-verification" content="1Omh3iGsOcu_I6deZ7okx9UH1G6q2kkIRqwOyYwyrH0" />
 
         <meta name="twitter:card" content="summary" />
@@ -63,6 +26,39 @@
           gtag('config', 'UA-79371248-3');
         </script>
     </head>
+
+    <style>
+            .loader {
+                border: 6px solid #f3f3f3; /* Light grey */
+                border-top: 6px solid #3498db; /* Blue */
+                border-radius: 50%;
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+                animation: spin 0.4s linear infinite;
+                
+                }
+    
+                .preloader {
+                    transition: all 0.5s;
+                }
+    
+                @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+                }
+        </style>
+            
+        <div class="preloader" style="height: 100vh;
+        width: 100vw;
+        z-index: 10;">
+            <div style="margin: 0 auto;
+            width: 50%;
+            position: relative;
+            top: 40%;">
+                <div class="loader"></div>
+            </div>
+        </div>
     
 
     <body>
@@ -70,11 +66,11 @@
         <div class="mobileNavBar">
             <img  class="menuIcon" src="{{ url_for('static', filename='css/menuIcon.png') }}" alt="" data-bind="click: () => {view.sidebarToggle()}">
             <img  class="backIcon" src="{{ url_for('static', filename='css/backIcon.png') }}" alt="" data-bind="click: () => {view.modalOutClick('close')}">
-            <h2 class="logo mobileLogo" data-bind="text: view.selectedPlatform"></h2>
+            <h2 class="logo mobileLogo" data-bind="text: view.selectedPlatform() + ' Deals'"></h2>
         </div>
 
         <div class="wrapper">
-                <div class="modal" data-bind="click: (event) => {view.modalOutClick(event)}">
+                <div class="modal" data-bind="click: (data, event) => {view.modalOutClick(event)}">
                         <div class="modalGame">
                             <div class="modalOffers" data-bind="foreach: view.modalInfo().offers">
                                 <div class="modalOffer">
@@ -96,6 +92,7 @@
             <div class="sidebarWrapper">
                 <div class="sidebar">
                     <h2 class="logo">GameScout</h2>
+                    <p class="tagline">We Find Game Deals</p>
                         <input class="searchBar" placeholder="Search for a game..." type="text" data-bind="textInput: view.userSearch">
         
                         <ul class="navList">
@@ -163,8 +160,10 @@
             </div>
         </div>
     </body>
-
-    <script type='text/javascript' src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/newDesign.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type='text/javascript' src="{{ url_for('static', filename='js/jquerySlim.js') }}"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/knockout-3.4.2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/newApp.js') }}"></script>

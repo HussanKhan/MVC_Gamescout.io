@@ -30,7 +30,7 @@ def stopcovers():
 
 
 
-@app.route('/redesign', methods=["GET"])
+@app.route('/', methods=["GET"])
 def home():
     return render_template('redesign.html')
 

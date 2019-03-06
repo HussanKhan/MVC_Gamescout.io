@@ -225,6 +225,7 @@ let view = {
 
         const sidebar = document.getElementsByClassName('sidebarWrapper')[0];
         const menu = document.getElementsByClassName('menuIcon')[0];
+        const games = document.getElementsByClassName('mainDisplay')[0];
 
         console.log('run')
 
@@ -236,11 +237,12 @@ let view = {
 
             setTimeout(() => {
                 sidebar.style.opacity = 1;
+                games.style.display = 'none';
             },200);
 
         } else {
             sidebar.style.opacity = 0;
-
+            games.style.display = 'block';
             setTimeout(() => {
                 sidebar.style.width = "0%";
                 sidebar.style.display = "none";
@@ -299,7 +301,7 @@ let view = {
 
     // Default games
     defaultGames: () => {
-        const games = controller.filterGenres(["Highly Rated Games", "Recently Released Games"], view.selectedPlatform());
+        const games = controller.filterGenres(["Highly Rated Games"], view.selectedPlatform());
         return games;
     } ,
 
@@ -547,6 +549,13 @@ let controller = {
                         model.filteredGames.push(model.sortedGames[i]);
                         tempArr.push(model.sortedGames[i].title);
                     }
+                }
+            }
+
+            for (let g = 0; g < model.sortedGames.length; g++) {
+                if (tempArr.indexOf(model.sortedGames[g].title) <= -1) {
+                    model.filteredGames.push(model.sortedGames[g]);
+                    tempArr.push(model.sortedGames[g].title);
                 }
             }
 

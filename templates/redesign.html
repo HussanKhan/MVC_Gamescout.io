@@ -1,5 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <title>Best Game Deals Website on the Internet - Everyday Deals</title>
+        <meta name="description" content="We search multiple gaming sites everyday and aggregate game deals. Our gaming deals are updated everyday. Our aggregator guarantees the lowest priced games around.">
+        <meta name="keywords" content="pc game deals, ps4 game deals, video game deal">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <meta name="google-site-verification" content="1Omh3iGsOcu_I6deZ7okx9UH1G6q2kkIRqwOyYwyrH0" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79371248-3"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'UA-79371248-3');
+        </script>
+    </head>
 
     <style>
         .loader {
@@ -33,29 +51,6 @@
             <div class="loader"></div>
         </div>
     </div>
-
-    
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="mobile-web-app-capable" content="yes">
-        <title>Best Game Deals Website on the Internet - Everyday Deals</title>
-        <meta name="description" content="We search multiple gaming sites everyday and aggregate game deals. Our gaming deals are updated everyday. Our aggregator guarantees the lowest priced games around.">
-        <meta name="keywords" content="pc game deals, ps4 game deals, video game deal">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/newDesign.css') }}">
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
-        <meta name="google-site-verification" content="1Omh3iGsOcu_I6deZ7okx9UH1G6q2kkIRqwOyYwyrH0" />
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-79371248-3"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'UA-79371248-3');
-        </script>
-    </head>
     
 
     <body>
@@ -63,7 +58,7 @@
         <div class="mobileNavBar">
             <img  class="menuIcon" src="{{ url_for('static', filename='css/menuIcon.png') }}" alt="" data-bind="click: () => {view.sidebarToggle()}">
             <img  class="backIcon" src="{{ url_for('static', filename='css/backIcon.png') }}" alt="" data-bind="click: () => {view.modalOutClick('close')}">
-            <h2 class="logo mobileLogo" data-bind="text: view.selectedPlatform"></h2>
+            <h2 class="logo mobileLogo" data-bind="text: view.selectedPlatform() + ' Deals'"></h2>
         </div>
 
         <div class="wrapper">
@@ -89,6 +84,7 @@
             <div class="sidebarWrapper">
                 <div class="sidebar">
                     <h2 class="logo">GameScout</h2>
+                    <p class="tagline">We Find Game Deals</p>
                         <input class="searchBar" placeholder="Search for a game..." type="text" data-bind="textInput: view.userSearch">
         
                         <ul class="navList">
@@ -157,7 +153,9 @@
         </div>
     </body>
 
-    <script type='text/javascript' src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/newDesign.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script type='text/javascript' src="{{ url_for('static', filename='js/jquerySlim.js') }}"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/knockout-3.4.2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/newApp.js') }}"></script>
