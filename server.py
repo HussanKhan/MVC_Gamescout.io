@@ -4,9 +4,38 @@ import json
 
 app = Flask(__name__)
 
+
+
+@app.route('/static', methods=["GET"])
+def stop():
+    return make_response("Not Allowed", 401)
+
+@app.route('/static/js', methods=["GET"])
+def stopjs():
+    return make_response("Not Allowed", 401)
+
+@app.route('/static/css', methods=["GET"])
+def stopcss():
+    return make_response("Not Allowed", 401)
+
+@app.route('/static/images', methods=["GET"])
+def stopimage():
+    return make_response("Not Allowed", 401)
+
+@app.route('/static/images/Gamecovers', methods=["GET"])
+def stopcovers():
+    return make_response("Not Allowed", 401)
+
+
+
+
+
 @app.route('/redesign', methods=["GET"])
 def home():
     return render_template('redesign.html')
+
+
+
 
 # More Game Info
 @app.route('/gamedeal', methods=["GET"])
