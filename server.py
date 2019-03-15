@@ -41,38 +41,38 @@ def home():
 @app.route('/gamedeal', methods=["GET"])
 def gameDeal():
 
-    title = request.args.get('game')
+    # title = request.args.get('game')
 
-    # Connec tto DBs
-    deals_DATABASE = GetDeals()
-    gamextra = GetGameInfo()
+    # # Connec tto DBs
+    # deals_DATABASE = GetDeals()
+    # gamextra = GetGameInfo()
 
-    # Finds game details from deep database
-    db_res = gamextra.game_info(title)
+    # # Finds game details from deep database
+    # db_res = gamextra.game_info(title)
 
-    gamextra.close_session()
+    # gamextra.close_session()
     
-    try:
-        # Finds deal related to game in current db
-        game_deals = deals_DATABASE.deal_info(title)
-    except Exception:
-        game_deals = []
+    # try:
+    #     # Finds deal related to game in current db
+    #     game_deals = deals_DATABASE.deal_info(title)
+    # except Exception:
+    #     game_deals = []
 
-    deals_DATABASE.close_session()
+    # deals_DATABASE.close_session()
 
-    price = 0
+    # price = 0
 
-    # Find lowest price for game
-    for g in game_deals:
-        gamePrice = '.'.join(re.findall(r'\d+', g.price))
+    # # Find lowest price for game
+    # for g in game_deals:
+    #     gamePrice = '.'.join(re.findall(r'\d+', g.price))
 
-        if price == 0:
-            price = gamePrice
+    #     if price == 0:
+    #         price = gamePrice
 
-        if gamePrice < price:
-            price = gamePrice
+    #     if gamePrice < price:
+    #         price = gamePrice
 
-    return render_template('redesign.html', title=db_res.name, image=db_res.image, summary=db_res.summary, lowestPrice=price)
+    return render_template('redesign.html')
 
 
 @app.route('/masterdeals', methods=["GET"])

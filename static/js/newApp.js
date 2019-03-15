@@ -104,6 +104,43 @@ let view = {
 
     // Applys UI functions
     init: () => {
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+            let active = false;
+          
+            const lazyLoad = function() {
+              if (active === false) {
+                active = true;
+          
+                setTimeout(function() {
+                  lazyImages.forEach(function(lazyImage) {
+                    if ((lazyImage.getBoundingClientRect().top <= window.innerHeight && lazyImage.getBoundingClientRect().bottom >= 0) && getComputedStyle(lazyImage).display !== "none") {
+                      lazyImage.src = lazyImage.dataset.src;
+                      lazyImage.srcset = lazyImage.dataset.srcset;
+                      lazyImage.classList.remove("lazy");
+          
+                      lazyImages = lazyImages.filter(function(image) {
+                        return image !== lazyImage;
+                      });
+          
+                      if (lazyImages.length === 0) {
+                        document.removeEventListener("scroll", lazyLoad);
+                        window.removeEventListener("resize", lazyLoad);
+                        window.removeEventListener("orientationchange", lazyLoad);
+                      }
+                    }
+                  });
+          
+                  active = false;
+                }, 200);
+              }
+            };
+          
+            document.addEventListener("scroll", lazyLoad);
+            window.addEventListener("resize", lazyLoad);
+            window.addEventListener("orientationchange", lazyLoad);
+          });
         
         // Loads arrays
         view.displayGames(view.defaultGames());
@@ -129,10 +166,10 @@ let view = {
     
             if (matches && matches.length != 0) {
                 view.displayGames(matches);
-                lazyload();
+                
             } else {
                 view.displayGames(view.defaultGames());
-                lazyload();
+                
             }
     
         });
@@ -145,10 +182,10 @@ let view = {
     
             if (matches && matches.length != 0) {
                 view.displayGames(matches);
-                lazyload();
+                
             } else {
                 view.displayGames(view.defaultGames());
-                lazyload();
+                
             }
 
             setTimeout(() => {
@@ -259,6 +296,11 @@ let view = {
 
         const modal = document.getElementsByClassName('modal')[0];
         const offers = controller.getOffers(gameName);
+
+        if (!(offers)) {
+            return 0;
+        }
+
         const modalInfo = {title: gameName, offers: offers, image: offers[0].image};
 
         view.mobileModalCheck(offers);
@@ -270,7 +312,7 @@ let view = {
         history.pushState('', '', '/gamedeal?game=' + gameName);
 
         view.modalInfo(modalInfo);
-    }, 
+    },
 
     // Special styling for modal on mobile
     mobileModalCheck: (offers) => {
@@ -440,7 +482,7 @@ let view = {
 
         view.displayGames(filteredGames);
 
-        lazyload();
+        
 
     },
 
@@ -455,7 +497,7 @@ let view = {
         view.genreMenuState(defaultState);
         view.displayGames(filteredGames);
 
-        lazyload();
+        
 
     },
 };
@@ -632,5 +674,5 @@ let controller = {
 // Starts app by applying bindings
 model.init(() => {
     ko.applyBindings(view.init());
-    lazyload();
+    
 });

@@ -17,6 +17,13 @@
           gtag('js', new Date());
           gtag('config', 'UA-79371248-3');
         </script>
+        <!-- Google Tag Manager -->
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-PFFGFDM');</script>
+        <!-- End Google Tag Manager -->
     </head>
 
     <style>
@@ -54,6 +61,11 @@
     
 
     <body>
+
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PFFGFDM"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
 
         <div class="mobileNavBar">
             <img  class="menuIcon" src="{{ url_for('static', filename='css/menuIcon.png') }}" alt="" data-bind="click: () => {view.sidebarToggle()}">
@@ -139,7 +151,7 @@
             <div class="mainDisplay">
                 <div class="gamesWrapper" data-bind="foreach: view.displayGames">
                     <div class="gameBox" data-bind="click: () => { view.modalOpen(title)}" >
-                        <img class="lazyload gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" alt="">
+                        <img class="lazy gameCover" data-src="" data-bind="attr: {'data-src': 'https://gamescout.io/' + image}" src="" alt="">
                             <div class="gameInfo">
                                 <p class="gameTitle" data-bind="text: title"></p>
                                 <span class="platPrice">
@@ -155,7 +167,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/newDesign.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <script type='text/javascript' src="{{ url_for('static', filename='js/jquerySlim.js') }}"></script>
+    <script type='text/javascript' src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/knockout-3.4.2.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
     <script type='text/javascript' src="{{ url_for('static', filename='js/newApp.js') }}"></script>
